@@ -1,0 +1,68 @@
+Version {
+    FormatVersion 800,
+}
+
+Model "Dummy" {
+    NumHelpers 2,
+    NumAttachments 3,
+    BlendTime 150,
+}
+
+Sequences <%= nums %> {
+    <%  for seq in anims %>
+    Anim "<%= seq["name"] %>" {
+        Interval { <%= seq["start"] %>, <%= seq["end"] %> },
+    }
+    <% end %>
+}
+
+Helper "BoneRoot" {
+    ObjectId 0,
+}
+
+Helper "Bone_Chest" {
+    ObjectId 1,
+    Parent 0,
+    Rotation <%= nums %> {
+    <% if false %>
+        Hermite,
+        <% for rot in rotations %>
+            <%= rot["frame"] %>: { <%= rot["quat"] %> },
+                InTan { <%= rot["spline"] %> },
+                OutTan { <%= rot["spline"] %> },
+        <% end %>
+    <% else %>
+        Linear,
+        <% for rot in rotations %>
+            <%= rot["frame"] %>: { <%= rot["quat"] %> },
+        <% end %>
+        
+    <% end %>
+    }
+}
+
+Attachment "Origin Ref " {
+    ObjectId 2,
+    Parent 1,
+    AttachmentID 0,
+}
+
+Attachment "OverHead Ref " {
+    ObjectId 3,
+    Parent 1,
+    AttachmentID 1,
+}
+
+Attachment "Chest Ref" {
+    ObjectId 4,
+    Parent 1,
+    AttachmentID 2,
+}
+
+PivotPoints 5 {
+    { -7.4339, -0.750733, 86.5826 },
+    { 0, -0.100014, -1.35821 },
+    { 0, -0.00240378, -0.191778 },
+    { 0, -0.00240378, 110.227 },
+    { -0.365332, -0.0457303, 58.9949 },
+}
